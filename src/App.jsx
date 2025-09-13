@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./features/authentication/Login";
 import DashboardLayout from "./features/dashboard/DashboardLayout";
 import HomeUser from "./features/dashboard/HomeUser";
+import ProtectRoute from "./ui/ProtectRoute";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +16,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectRoute>
+                <DashboardLayout />
+              </ProtectRoute>
+            }
+          >
             <Route index element={<HomeUser />} />
           </Route>
         </Routes>
