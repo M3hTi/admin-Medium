@@ -8,7 +8,9 @@ function DashboardLayout() {
       <Header />
       <div className="grid grid-cols-[250px_1fr] flex-1">
         <Navigation />
-        <Outlet />
+        <div className="p-6">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
