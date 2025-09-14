@@ -47,3 +47,45 @@ export async function getCurrentUser() {
     throw error;
   }
 }
+
+// info articles
+export async function getArticles(articleId) {
+  try {
+    let query = supabase
+      .from("articles")
+      .select("*")
+      .eq("status", "unconfirmed");
+
+    if (articleId) {
+      query.eq("id", articleId).select().single();
+    }
+
+    let { data: articles, error } = await query;
+
+    if (error) throw new Error("We can't get articles at this moment");
+
+    return articles;
+  } catch (error) {
+    console.log("❌ ERROR: my error is:", error.message);
+  }
+}
+
+export async function resetArticleStatus(article) {
+  try {
+    const { id, status } = article;
+    const { data, error } = await supabase
+      .from("articles")
+      .update({ status: status })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw new Error(`We can't change status of ${data.title}`);
+
+
+    return data;
+  } catch (error) {
+    console.log("❌ ERROR: my error is:", error.message);
+    throw error;
+  }
+}
