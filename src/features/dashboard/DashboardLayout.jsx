@@ -4,7 +4,7 @@ import Navigation from "../../ui/Navigation";
 
 function DashboardLayout() {
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       <div className="grid grid-cols-[250px_1fr] flex-1">
         <Navigation />

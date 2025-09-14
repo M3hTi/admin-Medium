@@ -9,8 +9,8 @@ function Header() {
         className="flex items-center gap-2 text-black hover:text-gray-700 transition-colors duration-200"
       >
         <img src={logo} alt="medium-alternative-logo" className="w-10" />
-        <span class="text-xl font-semibold tracking-tight">Medium</span>
-        <span class="text-sm text-gray-500 font-normal">Free Articles</span>
+        <span className="text-xl font-semibold tracking-tight">Medium</span>
+        <span className="text-sm text-gray-500 font-normal">Free Articles</span>
       </Link>
 
       <div>

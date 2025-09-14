@@ -44,7 +44,7 @@ function Article({ article }) {
             to={`/dashboard/${id}`}
             className="flex items-center justify-center w-full h-full px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
           >
-            Preview
+            See More
           </Link>
         </div>
       </div>
