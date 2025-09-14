@@ -49,12 +49,18 @@ export async function getCurrentUser() {
 }
 
 // info articles
-export async function getArticles() {
+export async function getArticles(articleId) {
   try {
-    let { data: articles, error } = await supabase
+    let query = supabase
       .from("articles")
       .select("*")
       .eq("status", "unconfirmed");
+
+    if (articleId) {
+      query.eq("id", articleId).select().single();
+    }
+
+    let { data: articles, error } = await query;
 
     if (error) throw new Error("We can't get articles at this moment");
 
