@@ -1,7 +1,10 @@
 import { formatDistance, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
+import { useConfirmed } from "./useConfirmed";
 
 function Article({ article }) {
+  const { confirm, confirming } = useConfirmed();
+
   const { title, content, created_at, id } = article;
 
   console.log("🔍 DEBUG: My content of article is:", content);
@@ -15,6 +18,15 @@ function Article({ article }) {
   });
 
   console.log("🔍 DEBUG: Relative publishDate is:", publishDate);
+
+  function handleConfirm() {
+    const newStatus = {
+      status: "confirmed",
+      id,
+    };
+
+    confirm(newStatus);
+  }
 
   return (
     <div className="grid grid-cols-[1fr_250px] bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
@@ -30,8 +42,11 @@ function Article({ article }) {
       </div>
       <div className="flex flex-col">
         <div className="flex-1 p-2 border-b border-gray-200">
-          <button className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-200 rounded-md hover:bg-green-50 hover:text-green-800 transition-colors duration-200">
-            Confirmed
+          <button
+            onClick={handleConfirm}
+            className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-200 rounded-md hover:bg-green-50 hover:text-green-800 transition-colors duration-200"
+          >
+            {confirming ? "Confirming..." : "Confirmed"}
           </button>
         </div>
         <div className="flex-1 p-2 border-b border-gray-200">

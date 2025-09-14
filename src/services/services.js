@@ -69,3 +69,23 @@ export async function getArticles(articleId) {
     console.log("❌ ERROR: my error is:", error.message);
   }
 }
+
+export async function resetArticleStatus(article) {
+  try {
+    const { id, status } = article;
+    const { data, error } = await supabase
+      .from("articles")
+      .update({ status: status })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw new Error(`We can't change status of ${data.title}`);
+
+
+    return data;
+  } catch (error) {
+    console.log("❌ ERROR: my error is:", error.message);
+    throw error;
+  }
+}
