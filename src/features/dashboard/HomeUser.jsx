@@ -1,9 +1,25 @@
+import Spinner from "../../ui/Spinner";
+import Article from "./Article";
+import { useArticles } from "./useArticles";
+
 function HomeUser() {
-    return (
-        <div>
-            this is home page of your account!
-        </div>
-    )
+  const { articles, isLoading } = useArticles();
+
+  console.log("📝 LOG: Articles are:", articles);
+
+  
+  if(isLoading){
+    return <Spinner />
+  }
+
+
+
+
+  return <div>
+    {articles.map(article => (
+        <Article key={article.id} article={article} />
+    ))}
+  </div>;
 }
 
-export default HomeUser
+export default HomeUser;
