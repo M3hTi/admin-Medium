@@ -1,9 +1,11 @@
 import { formatDistance, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 import { useConfirmed } from "./useConfirmed";
+import { useReject } from "./useReject";
 
 function Article({ article }) {
   const { confirm, confirming } = useConfirmed();
+  const { reject, rejecting } = useReject();
 
   const { title, content, created_at, id } = article;
 
@@ -28,6 +30,15 @@ function Article({ article }) {
     confirm(newStatus);
   }
 
+  function handleReject() {
+    const newStatus = {
+      status: "rejected",
+      id,
+    };
+
+    reject(newStatus);
+  }
+
   return (
     <div className="grid grid-cols-[1fr_250px] bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
       <div className="flex flex-col p-4 border-r border-gray-200">
@@ -50,8 +61,11 @@ function Article({ article }) {
           </button>
         </div>
         <div className="flex-1 p-2 border-b border-gray-200">
-          <button className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-md hover:bg-red-50 hover:text-red-800 transition-colors duration-200">
-            Rejected
+          <button
+            onClick={handleReject}
+            className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-md hover:bg-red-50 hover:text-red-800 transition-colors duration-200"
+          >
+            {rejecting ? "Rejecting..." : "Rejected"}
           </button>
         </div>
         <div className="flex-1 p-2">
