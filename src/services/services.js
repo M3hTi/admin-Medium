@@ -47,3 +47,19 @@ export async function getCurrentUser() {
     throw error;
   }
 }
+
+// info articles
+export async function getArticles() {
+  try {
+    let { data: articles, error } = await supabase
+      .from("articles")
+      .select("*")
+      .eq("status", "unconfirmed");
+
+    if (error) throw new Error("We can't get articles at this moment");
+
+    return articles;
+  } catch (error) {
+    console.log("❌ ERROR: my error is:", error.message);
+  }
+}
