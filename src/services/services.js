@@ -17,6 +17,16 @@ export async function login({ email, password }) {
   }
 }
 
+export async function logouut() {
+  try {
+    let { error } = await supabase.auth.signOut();
+    if (error)
+      throw new Error(`You can't logged out at this moment, Try again later!`);
+  } catch (error) {
+    console.log("❌ ERROR: my error is:", error.message);
+  }
+}
+
 export async function getCurrentUser() {
   try {
     const { data: session, error: errorSession } =
