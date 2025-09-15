@@ -1,8 +1,17 @@
+import { useForm } from "react-hook-form";
 import Spinner from "../../ui/Spinner";
 import { useAdmin } from "./useAdmin";
 
 function EditInfo() {
   const { admin, isLoading } = useAdmin();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const { avatar_url, full_Name, email } = admin || {};
 
   console.log(
     "%c📝 LOG: Admin info is:",
@@ -10,7 +19,16 @@ function EditInfo() {
     admin
   );
 
-  const { avatar_url, full_Name, email } = admin;
+  async function submit(data) {
+    // For testing
+    await new Promise((res) => setTimeout(res, 1000));
+
+    console.log(
+      "%cℹ️ INFO: My data is",
+      "color: #3B82F6; font-weight: bold",
+      data
+    );
+  }
 
   if (isLoading) {
     return <Spinner />;
@@ -27,7 +45,7 @@ function EditInfo() {
       </div>
 
       {/* Form */}
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit(submit)} className="space-y-6">
         {/* Avatar Upload Section */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">
@@ -55,10 +73,17 @@ function EditInfo() {
             </div>
             <div className="flex flex-col gap-2">
               <input
+                name="avatar"
                 type="file"
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                {...register("avatar")}
               />
             </div>
+            {errors?.avatar?.message && (
+              <span className="block mt-1 text-xs font-medium text-red-600">
+                {errors?.avatar?.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -75,9 +100,17 @@ function EditInfo() {
             type="text"
             id="fullName"
             name="fullName"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
             placeholder="Enter your full name"
+            {...register("fullName", {
+              required: "Please enter your name",
+            })}
           />
+          {errors?.fullName?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.fullName?.message}
+            </span>
+          )}
         </div>
 
         {/* Email Field */}
@@ -90,9 +123,23 @@ function EditInfo() {
             type="email"
             id="email"
             name="email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
             placeholder="Enter your email address"
+            {...register("email", {
+              required: "Please enter your email address",
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message:
+                  "❌ Invalid email address. Please enter a valid format like user@example.com",
+              },
+            })}
           />
+          {errors?.email?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.email?.message}
+            </span>
+          )}
         </div>
 
         {/* Form Actions */}
@@ -107,7 +154,7 @@ function EditInfo() {
             type="submit"
             className="px-6 py-2 text-sm font-medium text-gray-600 bg-gray-50 border border-gray-300 rounded-md"
           >
-            Save Changes
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>
