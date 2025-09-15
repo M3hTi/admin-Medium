@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import  logo  from "/medium.png";
+import logo from "/medium.png";
+import { useUser } from "../features/authentication/useUser.js";
 
 function Header() {
+  const { user } = useUser();
   return (
     <header className="flex justify-between items-center border border-b-1 border-gray-200 p-2">
       <Link
@@ -14,7 +16,7 @@ function Header() {
       </Link>
 
       <div>
-        <span>Welcome, Mehdi</span>
+        <span className="font-bold">Welcome{`, ${user.user_metadata.full_name}`}</span>
       </div>
     </header>
   );

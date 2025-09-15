@@ -8,6 +8,8 @@ import HomeUser from "./features/dashboard/HomeUser";
 import ProtectRoute from "./ui/ProtectRoute";
 import ArticleDetail from "./features/dashboard/ArticleDetail";
 import EditInfo from "./features/dashboard/EditInfo";
+import CreateAdmin from "./features/dashboard/CreateAdmin";
+
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ function App() {
             <Route index element={<HomeUser />} />
             <Route path=":id" element={<ArticleDetail />} />
             <Route path="edit" element={<EditInfo />} />
+            <Route path="create" element={<CreateAdmin />} />
           </Route>
         </Routes>
       </BrowserRouter>
