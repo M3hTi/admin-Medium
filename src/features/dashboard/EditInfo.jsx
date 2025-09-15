@@ -1,9 +1,12 @@
 import { useForm } from "react-hook-form";
 import Spinner from "../../ui/Spinner";
 import { useAdmin } from "./useAdmin";
+import { useUpdateInfo } from "./useUpdateInfo";
 
 function EditInfo() {
   const { admin, isLoading } = useAdmin();
+
+  const { updateInfo } = useUpdateInfo();
 
   const {
     register,
@@ -28,6 +31,8 @@ function EditInfo() {
       "color: #3B82F6; font-weight: bold",
       data
     );
+
+    updateInfo(data);
   }
 
   if (isLoading) {
@@ -54,7 +59,7 @@ function EditInfo() {
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 bg-gray-100 rounded-full border-2 border-gray-200 flex items-center justify-center">
               {avatar_url ? (
-                avatar_url
+                <img src={avatar_url} alt="avatar" />
               ) : (
                 <svg
                   className="w-8 h-8 text-gray-400"
@@ -76,14 +81,16 @@ function EditInfo() {
                 name="avatar"
                 type="file"
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                {...register("avatar")}
+                {...register("avatar", {
+                  required: "Please upload your avatar",
+                })}
               />
+              {errors?.avatar?.message && (
+                <span className="block mt-1 text-xs font-medium text-red-600">
+                  {errors?.avatar?.message}
+                </span>
+              )}
             </div>
-            {errors?.avatar?.message && (
-              <span className="block mt-1 text-xs font-medium text-red-600">
-                {errors?.avatar?.message}
-              </span>
-            )}
           </div>
         </div>
 

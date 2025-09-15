@@ -59,10 +59,76 @@ export async function getAdmin(userId) {
 
     if (error) throw new Error(`We can't fetch your infoormation`);
 
-    return admin
+    return admin;
   } catch (error) {
     console.log(
       "%c❌ ERROR: my error is",
+      "color: #EF4444; font-weight: bold",
+      error.message
+    );
+    throw error;
+  }
+}
+
+export async function updateAdmin(admin) {
+  try {
+    // info avatar url => https://uxnfqdljsuukxndxfqcy.supabase.co/storage/v1/object/public/avatar/Me_.jpg
+
+    const { fullName, email, avatar } = admin;
+
+    // info 1) upload avatar
+    const avatarFile = avatar[0];
+
+    console.log(
+      "%cℹ️ INFO: my avatar is:",
+      "color: #3B82F6; font-weight: bold",
+      avatarFile
+    );
+
+    if (!avatarFile) {
+      throw new Error("Please select an avatar");
+    }
+
+    const avatarName = `${Math.random()}-${avatarFile?.name}`.replaceAll(
+      "/",
+      ""
+    );
+
+    console.log(
+      "%cℹ️ INFO: name of avatar is:",
+      "color: #3B82F6; font-weight: bold",
+      avatarName
+    );
+
+    const avatarPath = `https://uxnfqdljsuukxndxfqcy.supabase.co/storage/v1/object/public/avatar/${avatarName}`;
+
+    console.log(
+      "%cℹ️ INFO: avatar path is",
+      "color: #3B82F6; font-weight: bold",
+      avatarPath
+    );
+
+    const { error: uploadingErr } = await supabase.storage
+      .from("avatars")
+      .upload(avatarName, avatarFile);
+
+    if (uploadingErr)
+      throw new Error(`we can't upload your image, Try again later!`);
+
+    // info 2) updating user
+    const { data, error } = await supabase.auth.updateUser({
+      email,
+      // password: "new-password",
+      data: { full_name: fullName, avatar_url: avatarPath },
+    });
+
+    if (error)
+      throw new Error(`We can't update your information, Try again later!`);
+
+    return data;
+  } catch (error) {
+    console.log(
+      "%c❌ ERROR: my error is:",
       "color: #EF4444; font-weight: bold",
       error.message
     );
