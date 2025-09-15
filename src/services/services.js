@@ -48,6 +48,28 @@ export async function getCurrentUser() {
   }
 }
 
+export async function getAdmin(userId) {
+  try {
+    let { data: admin, error } = await supabase
+      .from("admins")
+      .select("*")
+      .eq("id", userId)
+      .select()
+      .single();
+
+    if (error) throw new Error(`We can't fetch your infoormation`);
+
+    return admin
+  } catch (error) {
+    console.log(
+      "%c❌ ERROR: my error is",
+      "color: #EF4444; font-weight: bold",
+      error.message
+    );
+    throw error;
+  }
+}
+
 // info articles
 export async function getArticles(articleId) {
   try {
@@ -81,7 +103,6 @@ export async function resetArticleStatus(article) {
       .single();
 
     if (error) throw new Error(`We can't change status of ${data.title}`);
-
 
     return data;
   } catch (error) {
