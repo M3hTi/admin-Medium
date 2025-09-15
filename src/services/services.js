@@ -27,6 +27,31 @@ export async function logouut() {
   }
 }
 
+export async function signup(info) {
+  try {
+    const { email, password, fullName } = info;
+    let { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+    if (error) throw new Error(`We can't signup new account, Try again later!`);
+
+    return data;
+  } catch (error) {
+    console.log(
+      "%c❌ ERROR: signup error is:",
+      "color: #EF4444; font-weight: bold",
+      error.message
+    );
+    throw error;
+  }
+}
+
 export async function getCurrentUser() {
   try {
     const { data: session, error: errorSession } =
@@ -81,7 +106,6 @@ export async function resetArticleStatus(article) {
       .single();
 
     if (error) throw new Error(`We can't change status of ${data.title}`);
-
 
     return data;
   } catch (error) {
