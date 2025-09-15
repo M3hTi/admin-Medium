@@ -1,4 +1,33 @@
+import { useForm } from "react-hook-form";
+import { useSignup } from "../authentication/useSignup";
+
 function CreateAdmin() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    getValues,
+  } = useForm();
+
+  const { signup } = useSignup();
+
+  async function submit(data) {
+    // For testing
+    await new Promise((res) => setTimeout(res, 1000));
+    console.log(
+      "%c📝 LOG: My info acc is:",
+      "color: #6B7280; font-weight: bold",
+      data
+    );
+
+    signup(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
+  }
+
   return (
     <div className=" mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-200">
       <div className="mb-6">
@@ -10,7 +39,7 @@ function CreateAdmin() {
         </p>
       </div>
 
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit(submit)} className="space-y-4">
         <div className="space-y-2">
           <label
             htmlFor="fullName"
@@ -19,12 +48,20 @@ function CreateAdmin() {
             Full Name
           </label>
           <input
+            {...register("fullName", {
+              required: "Please enter your name",
+            })}
             type="text"
             id="fullName"
             name="fullName"
             placeholder="Enter full name"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
           />
+          {errors?.fullName?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.fullName?.message}
+            </span>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -32,12 +69,26 @@ function CreateAdmin() {
             Email
           </label>
           <input
+            {...register("email", {
+              required: "Please enter your email address",
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message:
+                  "❌ Invalid email address. Please enter a valid format like user@example.com",
+              },
+            })}
             type="email"
             id="email"
             name="email"
             placeholder="Enter email address"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
           />
+          {errors?.email?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.email?.message}
+            </span>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -48,12 +99,20 @@ function CreateAdmin() {
             Password
           </label>
           <input
+            {...register("password", {
+              required: "Please enter your password",
+            })}
             type="password"
             id="password"
             name="password"
             placeholder="Enter password"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
           />
+          {errors?.password?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.password?.message}
+            </span>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -64,19 +123,32 @@ function CreateAdmin() {
             Confirm Password
           </label>
           <input
+            {...register("confirmPassword", {
+              validate: (value) => {
+                return (
+                  getValues("password") === value ||
+                  "Please match your passwords"
+                );
+              },
+            })}
             type="password"
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm your password"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
           />
+          {errors?.confirmPassword?.message && (
+            <span className="block mt-1 text-xs font-medium text-red-600">
+              {errors?.confirmPassword?.message}
+            </span>
+          )}
         </div>
 
         <button
           type="submit"
           className="cursor-pointer w-full rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition-colors"
         >
-          Create Admin Account
+          {isSubmitting ? "Creating..." : "Create Admin Account"}
         </button>
       </form>
     </div>
