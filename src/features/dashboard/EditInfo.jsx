@@ -14,7 +14,7 @@ function EditInfo() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { avatar_url, full_Name, email } = admin || {};
+  const { avatar_url, full_name, email } = admin || {};
 
   console.log(
     "%c📝 LOG: Admin info is:",
@@ -103,7 +103,7 @@ function EditInfo() {
             Full Name
           </label>
           <input
-            defaultValue={full_Name}
+            defaultValue={full_name}
             type="text"
             id="fullName"
             name="fullName"
