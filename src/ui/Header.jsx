@@ -15,7 +15,10 @@ function Header() {
         <span className="text-sm text-gray-500 font-normal">Free Articles</span>
       </Link>
 
-      <div>
+      <div className="flex items-center gap-1.5">
+        {user.user_metadata.avatar_url && <span>{
+          <img src={user.user_metadata.avatar_url} alt="avatar" className="rounded-full w-9" />
+          }</span>}
         <span className="font-bold">Welcome{`, ${user.user_metadata.full_name}`}</span>
       </div>
     </header>
