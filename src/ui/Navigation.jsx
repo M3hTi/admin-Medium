@@ -1,43 +1,66 @@
 import { FaPlus } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiMenu } from "react-icons/fi";
 import { MdOutlineArticle } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Logout from "../features/authentication/Logout";
+import { useState } from "react";
+import { useOutsideClick } from "../hooks/useOutsideClick.js";
 
 function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { ref } = useOutsideClick(() => setIsOpen(false));
+
   return (
-    <aside className="w-64  bg-gray-50 border-r border-gray-200 p-4 flex flex-col">
-      <div>
-        <nav className="space-y-2">
-          <Link
-            to="/dashboard"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-          >
-            <MdOutlineArticle />
-            Articles
-          </Link>
+    <>
+      <span className="md:hidden">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="p-2 rounded-md hover:bg-gray-100"
+        >
+          <FiMenu className="h-6 w-6" />
+        </button>
+      </span>
 
-          <Link
-            to="/dashboard/edit"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-          >
-            <FiEdit />
-            Edit Account Info
-          </Link>
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-gray-50 border-r border-gray-200 p-4
+          transform transition-transform duration-300
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          flex flex-col h-full
+          md:static md:translate-x-0 md:flex md:flex-col`}
+        ref={ref}
+      >
+        <div>
+          <nav className="space-y-2">
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
+            >
+              <MdOutlineArticle />
+              Articles
+            </Link>
 
-          <Link
-            to="/dashboard/create"
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-          >
-            <FaPlus />
-            Create User
-          </Link>
-        </nav>
-      </div>
-      <div className="mt-auto px-3">
-        <Logout />
-      </div>
-    </aside>
+            <Link
+              to="/dashboard/edit"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
+            >
+              <FiEdit />
+              Edit Account Info
+            </Link>
+
+            <Link
+              to="/dashboard/create"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
+            >
+              <FaPlus />
+              Create User
+            </Link>
+          </nav>
+        </div>
+        <div className="mt-auto px-3">
+          <Logout />
+        </div>
+      </aside>
+    </>
   );
 }
 
