@@ -6,7 +6,7 @@ function DashboardLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
-      <div className="grid grid-cols-[250px_1fr] flex-1">
+      <div className="md:grid md:grid-cols-[250px_1fr] flex-1">
         <Navigation />
         <div className="p-6">
           <Outlet />
