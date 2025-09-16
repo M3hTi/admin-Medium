@@ -59,7 +59,7 @@ function EditInfo() {
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 bg-gray-100 rounded-full border-2 border-gray-200 flex items-center justify-center">
               {avatar_url ? (
-                <img src={avatar_url} alt="avatar" />
+                <img src={avatar_url} alt="avatar" className="rounded-full" />
               ) : (
                 <svg
                   className="w-8 h-8 text-gray-400"

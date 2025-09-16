@@ -134,7 +134,7 @@ export async function updateAdmin(admin) {
     );
 
     const { error: uploadingErr } = await supabase.storage
-      .from("avatars")
+      .from("avatar")
       .upload(avatarName, avatarFile);
 
     if (uploadingErr)
