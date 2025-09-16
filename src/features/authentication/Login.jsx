@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useLogin } from "./useLogin";
+import { useEffect } from "react";
 
 function Login() {
   const {
@@ -33,6 +34,10 @@ function Login() {
 
     console.log("🔍 DEBUG: my error is:", err);
   }
+
+  useEffect(() => {
+    document.title = "Welcome to the Admin Medium site";
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">

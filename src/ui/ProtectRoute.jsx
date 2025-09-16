@@ -12,6 +12,10 @@ function ProtectRoute({ children }) {
     }
   }, [isLoading, isAuthenticate, navigate]);
 
+   useEffect(()=> {
+    document.title = "dashboard | Medium site"
+  }, [])
+
   if (isLoading) {
     return <div>Loding data..</div>;
   }
