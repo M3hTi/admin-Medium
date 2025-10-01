@@ -2,6 +2,7 @@ import { formatDistance, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 import { useConfirmed } from "./useConfirmed";
 import { useReject } from "./useReject";
+import Menu from "../../ui/Menu";
 
 function Article({ article }) {
   const { confirm, confirming } = useConfirmed();
@@ -40,42 +41,27 @@ function Article({ article }) {
   }
 
   return (
-    <div className="grid grid-cols-[1fr_250px] bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
       <div className="flex flex-col p-4 border-r border-gray-200">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-          <span className="text-sm text-gray-500">{publishDate}</span>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+            <span className="text-sm text-gray-500">{publishDate}</span>
+          </div>
+          <div>
+            <Menu
+              articleId={id}
+              onConfirm={handleConfirm}
+              onReject={handleReject}
+              confirming={confirming}
+              rejecting={rejecting}
+            />
+          </div>
         </div>
         <p className="text-sm text-gray-600 leading-relaxed">
           {displayContent}
           <span>...</span>
         </p>
-      </div>
-      <div className="flex flex-col">
-        <div className="flex-1 p-2 border-b border-gray-200">
-          <button
-            onClick={handleConfirm}
-            className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-200 rounded-md hover:bg-green-50 hover:text-green-800 transition-colors duration-200"
-          >
-            {confirming ? "Confirming..." : "Confirmed"}
-          </button>
-        </div>
-        <div className="flex-1 p-2 border-b border-gray-200">
-          <button
-            onClick={handleReject}
-            className="cursor-pointer w-full h-full px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-200 rounded-md hover:bg-red-50 hover:text-red-800 transition-colors duration-200"
-          >
-            {rejecting ? "Rejecting..." : "Rejected"}
-          </button>
-        </div>
-        <div className="flex-1 p-2">
-          <Link
-            to={`/dashboard/${id}`}
-            className="flex items-center justify-center w-full h-full px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-          >
-            See More
-          </Link>
-        </div>
       </div>
     </div>
   );
