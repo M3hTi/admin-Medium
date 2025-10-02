@@ -2,10 +2,18 @@ import { Link } from "react-router-dom";
 import EllipsisProvider from "./EllipsisButton";
 import { FiMoreHorizontal } from "react-icons/fi";
 
-function Menu({ articleId, onConfirm, onReject, confirming, rejecting }) {
+function Menu({
+  articleId,
+  onConfirm,
+  onReject,
+  confirming,
+  rejecting,
+  activeTab,
+  setActiveTab,
+}) {
   return (
     <div>
-      <EllipsisProvider>
+      <EllipsisProvider activeTab={activeTab} setActiveTab={setActiveTab} articleId={articleId}>
         <EllipsisProvider.Button className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200 text-gray-600 hover:text-gray-900">
           <FiMoreHorizontal />
         </EllipsisProvider.Button>

@@ -1,10 +1,9 @@
 import { formatDistance, parseISO } from "date-fns";
-import { Link } from "react-router-dom";
+import Menu from "../../ui/Menu";
 import { useConfirmed } from "./useConfirmed";
 import { useReject } from "./useReject";
-import Menu from "../../ui/Menu";
 
-function Article({ article }) {
+function Article({ article, activeTab, setActiveTab }) {
   const { confirm, confirming } = useConfirmed();
   const { reject, rejecting } = useReject();
 
@@ -55,6 +54,8 @@ function Article({ article }) {
               onReject={handleReject}
               confirming={confirming}
               rejecting={rejecting}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
             />
           </div>
         </div>

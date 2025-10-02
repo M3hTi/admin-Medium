@@ -1,9 +1,12 @@
+import { useState } from "react";
 import Spinner from "../../ui/Spinner";
 import Article from "./Article";
 import { useArticles } from "./useArticles";
 
 function HomeUser() {
   const { articles, isLoading } = useArticles();
+
+  const [activeTab, setActiveTab] = useState(null);
 
   console.log("📝 LOG: Articles are:", articles);
 
@@ -30,7 +33,7 @@ function HomeUser() {
   return (
     <div className="space-y-3">
       {articles?.map((article) => (
-        <Article key={article.id} article={article} />
+        <Article key={article.id} article={article} activeTab={activeTab} setActiveTab={setActiveTab} />
       ))}
     </div>
   );
